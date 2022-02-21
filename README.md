@@ -1,9 +1,6 @@
-# Emotional Go/No-Go Task 
+# Emotional Go/No-Go Task
 
 Build V1.2 : 04/06/2021
-Psychopharmacology & Emotion Laboratory
-
-Department of Psychiatry, University of Oxford
 
 Created by Michael Colwell (michael.colwell@psych.ox.ac.uk / ORCID 0000-0001-7846-2879), 2021
 
@@ -13,7 +10,7 @@ The task materials and preprocessing script are offered free of charge for resea
 **Please cite the code and supplementary materials below**:
 
 *Emotional Go/No-Go Task reference*
-**TBC**
+Colwell, M., Murphy, S., & Harmer, H. (2021). Emotional Go/No-Go Task (Version 1.2). Zenodo. https://doi.org/10.5281/zenodo.6207865
 
 *KDEF reference*
 Lundqvist, D., Flykt, A., &  Öhman, A. (1998). The Karolinska Directed Emotional Faces - KDEF, CD ROM from Department of Clinical Neuroscience, Psychology section, Karolinska Institutet, ISBN 91-630-7164-9.
