@@ -10,12 +10,15 @@ The task materials and preprocessing script are offered free of charge for resea
 **Please cite the code and supplementary materials below**:
 
 *Emotional Go/No-Go Task reference*
+
 Colwell, M., Murphy, S., & Harmer, H. (2021). Emotional Go/No-Go Task (Version 1.2). Zenodo. https://doi.org/10.5281/zenodo.6207865
 
 *KDEF reference*
+
 Lundqvist, D., Flykt, A., &  Öhman, A. (1998). The Karolinska Directed Emotional Faces - KDEF, CD ROM from Department of Clinical Neuroscience, Psychology section, Karolinska Institutet, ISBN 91-630-7164-9.
 
 *RADIATE reference*
+
 Conley, M. I., Dellarco, D. V., Rubien-Thomas, E., Cohen, A. O., Cervera, A., Tottenham, N., & Casey, B. J. (2018). The racially diverse affective expression (RADIATE) face stimulus set. Psychiatry research, 270, 1059-1067.
 
 This task is currently in-use in the Psychopharmacology and Emotion Laboratory (PERL) at the Department of Psychiatry, University of Oxford. Two ongoing psychopharmacology projects (FEN&COG - NCT05026398; PROGRESS) are currently using these tasks.
