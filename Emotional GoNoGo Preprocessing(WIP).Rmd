@@ -1,0 +1,293 @@
+---
+title: "Emotional Go/No-Go R Markdown"
+author: "Michael J Colwell"
+date: "17/02/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+```
+
+## Emotional Go/No-Go RMarkdown (February 17, 2022; Version 0.1)
+
+This is an RMarkdown to allow for reproducible and accurate preprocessing of the Emotional Go/No-Go Psychopy 
+task data created by Michael Colwell (michael.colwell@psych.ox.ac.uk / ORCID 0000-0001-7846-2879).
+
+The task materials and preprocessing script are offered free of charge for researchers. **It is requested that researchers who publish data using these materials (task or preprocessing script) cite the code for the task
+in relevant publications**. Our reference is:
+
+[TO BE COMPLETED]
+
+##Required R packages
+
+You will need the following packages installed and loaded before executing the below code chunks. 
+
+```{r libraries, echo=FALSE, include=FALSE}
+
+library(dplyr)
+library(tidyverse)
+library(gtools)
+library(knitr)
+
+```
+
+
+##Begin preprocessing: Setting directory, merging files and deleting unnecessary columns
+
+You will first need to point to the directory of your task files, typically in the 'data' subfolder where the
+psychopy task is located. **Please edit the path directory below after the setwd function.**
+
+The next lines in the chunk of code will allow you to merge all data files (.csv) in the directory assigned above to a dataframe, and then delete extraneous columns from the dataframe.
+
+**Potential error**: "Error in rbind(deparse.level, ...) : numbers of columns of arguments do not match"
+**Solution**: One of the .csv files may not have run beyond the practice section, therefore not enough columns
+have generated. Delete this file and then continue.
+
+
+```{r b0, echo=FALSE, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE)
+
+setwd("C:/Users/micha/Desktop/TestGo")
+
+GoNo_files <- list.files(pattern=glob2rx("*No*.csv"))
+GoNo <- do.call(rbind, lapply(GoNo_files, function(x) read.csv(x, stringsAsFactors = FALSE)))
+
+GoNo <- GoNo %>% rename(Task.version=Task.Version..required.to.run., Participant.ID=participant)
+
+GoNo <- GoNo %>% select(Participant.ID, Study.Name,Task.version, PRE.POST,frameRate,Express,Instructions,FaceE,ColourT, Pract.corr, Pract.rt,ISIjitterPractice,PracticeFace.started,key_resp.corr,key_resp.rt,ISIjitter,FaceSet.started,Instructions,CondFile)
+
+GoNo <- GoNo %>%
+  mutate(key_resp.rt = key_resp.rt*1000, Pract.rt = Pract.rt*1000,  ISI.time = ISIjitter*100, ISI.time.pract = ISIjitterPractice*100)
+
+GoNo <- GoNo %>% mutate(ISI = coalesce(ISI.time, ISI.time.pract))
+
+GoNo <- GoNo %>% mutate(FaceSet.started = as.numeric(FaceSet.started))
+
+GoNo <- GoNo %>% mutate(FaceSetStart = coalesce(PracticeFace.started, FaceSet.started))
+
+GoNo <- GoNo %>% mutate(Correct = coalesce(Pract.corr, key_resp.corr))
+
+GoNo <- GoNo %>% mutate(Response.Time = coalesce(key_resp.rt, Pract.rt))
+
+GoNo <- GoNo %>% select (-c(ISIjitter,ISIjitterPractice))
+
+
+```
+
+#Running data quality tests
+
+```{r b0, echo=FALSE, include=TRUE}
+
+
+samplesize = length(unique(GoNo$Participant.ID))
+
+#Participant.ID may have two visits
+
+print(samplesize)
+
+ifelse((trialcount=80), print("PASS"), print("FAIL"))
+
+trialcount<-plyr::count(GoNo$CondFile)
+
+CheckFpsRange<- range(GoNo$frameRate)
+
+Checkfps<-as.data.frame(table(GoNo$frameRate))
+Checkfps <- Checkfps %>% mutate(FPSChecker = case_when((Freq==524) ~ 'No frames dropped', 
+                             TRUE ~ "Frame drops detected - check original data file"))
+
+paste("Your fps range is ", CheckFpsRange[1], "-", CheckFpsRange[2], ". Any significant deviation from the testing computer monitor native refresh rate needs to be queried as may indicate software lag.", sep="")
+
+print(Checkfps)
+rm(Checkfps)
+rm(CheckFpsRange)
+
+
+```
+
+##Further parsing the dataframe 
+
+The following chunks will allow you to parse the data, including generating omission/comission error checks
+based on conditions set in the file.
+
+
+```{r b0, echo=FALSE, include=TRUE}
+GoNo <- GoNo %>%
+  mutate(InhibitionType = case_when(str_detect(Instructions, "blue") ~ 'BlueInhibition', 
+                             str_detect(Instructions, "yellow") ~ 'YellowInhibition',
+                             TRUE ~ "NA"))
+GoNo <- GoNo %>%
+  mutate(OmComCheck = case_when((InhibitionType == "BlueInhibition" & ColourT == "Blue") ~ 'CommissionCheck',
+                                (InhibitionType == 'BlueInhibition' & ColourT == 'Yellow') ~ 'OmissionCheck',
+                                (InhibitionType == 'YellowInhibition' & ColourT == 'Yellow') ~ 'CommissionCheck',
+           (InhibitionType == 'YellowInhibition' & ColourT == 'Blue') ~ 'OmissionCheck', 
+         TRUE ~ "NA"))
+
+GoNo <- GoNo %>%
+  mutate(OmComFreq = case_when((OmComCheck == "CommissionCheck" & Correct == 1) ~ 'ComPass',
+                                (OmComCheck == 'OmissionCheck' & Correct == 1) ~ 'OmPass',
+                                (OmComCheck == 'CommissionCheck' & Correct == 0) ~ 'ComError',
+           (OmComCheck == 'OmissionCheck' & Correct == 0) ~ 'OmError', 
+         TRUE ~ "NA"))
+
+
+GoNo <- GoNo %>%
+  mutate(CorrectOm = case_when(str_detect(OmComFreq, "OmPass") ~ 1, 
+                             TRUE ~ 0))
+GoNo <- GoNo %>%
+  mutate(CorrectCom = case_when(str_detect(OmComFreq, "ComPass") ~ 1, 
+                             TRUE ~ 0))
+GoNo <- GoNo %>%
+  mutate(FailOm = case_when(str_detect(OmComFreq, "OmError") ~ 1, 
+                             TRUE ~ 0))
+GoNo <- GoNo %>%
+  mutate(FailCom = case_when(str_detect(OmComFreq, "ComError") ~ 1, 
+                             TRUE ~ 0))
+
+GoNo <- GoNo %>%
+  mutate(RealorPractice = case_when((Pract.corr==0) ~ 'Practice', (Pract.corr==1) ~ 'Practice',
+                                    (key_resp.corr==0) ~ 'RealTask',(key_resp.corr==1) ~ 'RealTask', TRUE ~ 'NA'))
+GoNo <- GoNo %>%
+  mutate(HotorColdTrial = case_when(str_detect(Express, "Fear") ~ 'Hot', 
+                             str_detect(Express, "Happy") ~ 'Hot',
+                             str_detect(Express, "Scramble")~ 'Cold',
+                             TRUE ~ "NA"))
+
+GoNo <- GoNo %>% mutate(ValOmComFreq = case_when((OmComCheck == "CommissionCheck" & Express=="Fear" & key_resp.corr == 1) ~ 'FearComPass', (OmComCheck == "OmissionCheck" & Express=="Fear" & key_resp.corr == 1) ~ 'FearOmPass',(OmComCheck == "OmissionCheck" & Express=="Fear" & key_resp.corr == 0) ~ 'FearOmFail',(OmComCheck == "CommissionCheck" & Express=="Fear" & key_resp.corr == 0) ~ 'FearComFail', (OmComCheck == "CommissionCheck" & Express=="Happy" & key_resp.corr == 1) ~ 'HappyComPass', (OmComCheck == "OmissionCheck" & Express=="Happy" & key_resp.corr == 1) ~ 'HappyOmPass',(OmComCheck == "OmissionCheck" & Express=="Happy" & key_resp.corr == 0) ~ 'HappyOmFail',(OmComCheck == "CommissionCheck" & Express=="Happy" & key_resp.corr == 0) ~ 'HappyComFail', TRUE ~ "NA"))
+
+GoNo <- GoNo %>% mutate(ColdHotOmComFreq = case_when((OmComCheck == "CommissionCheck" & HotorColdTrial=="Hot" & key_resp.corr == 1) ~ 'HotComPass', (OmComCheck == "OmissionCheck" & HotorColdTrial=="Hot" & key_resp.corr == 1) ~ 'HotOmPass',(OmComCheck == "OmissionCheck" & HotorColdTrial=="Hot" & key_resp.corr == 0) ~ 'HotOmFail',(OmComCheck == "CommissionCheck" & HotorColdTrial=="Hot" & key_resp.corr == 0) ~ 'HotComFail', (OmComCheck == "CommissionCheck" & HotorColdTrial=="Cold" & key_resp.corr == 1) ~ 'ColdComPass', (OmComCheck == "OmissionCheck" & HotorColdTrial=="Cold" & key_resp.corr == 1) ~ 'ColdOmPass',(OmComCheck == "OmissionCheck" & HotorColdTrial=="Cold" & key_resp.corr == 0) ~ 'ColdOmFail',(OmComCheck == "CommissionCheck" & HotorColdTrial=="Cold" & key_resp.corr == 0) ~ 'ColdComFail', TRUE ~ "NA"))
+
+GoNo <- GoNo %>% mutate(PractColdHotOmComFreq = case_when((OmComCheck == "CommissionCheck" & HotorColdTrial=="Hot" & Pract.corr == 1) ~ 'HotComPass', (OmComCheck == "OmissionCheck" & HotorColdTrial=="Hot" & Pract.corr == 1) ~ 'HotOmPass',(OmComCheck == "OmissionCheck" & HotorColdTrial=="Hot" & Pract.corr == 0) ~ 'HotOmFail',(OmComCheck == "CommissionCheck" & HotorColdTrial=="Hot" & Pract.corr == 0) ~ 'HotComFail', (OmComCheck == "CommissionCheck" & HotorColdTrial=="Cold" & Pract.corr == 1) ~ 'ColdComPass', (OmComCheck == "OmissionCheck" & HotorColdTrial=="Cold" & Pract.corr == 1) ~ 'ColdOmPass',(OmComCheck == "OmissionCheck" & HotorColdTrial=="Cold" & Pract.corr == 0) ~ 'ColdOmFail',(OmComCheck == "CommissionCheck" & HotorColdTrial=="Cold" & Pract.corr == 0) ~ 'ColdComFail', TRUE ~ "NA"))
+
+```
+
+##Summaries for long file format
+
+```{r b0, echo=FALSE, include=TRUE}
+
+Long_GoNo_MainSummary <- GoNo %>%
+  group_by(Participant.ID, PRE.POST, RealorPractice,  HotorColdTrial,Express)%>%
+  summarise(RTmean = mean(Response.Time, na.rm=TRUE), RTsd = sd(Response.Time, na.rm=TRUE), AccurateOm = sum(CorrectOm), AccurateCom = sum(CorrectCom), MissOm= sum(FailOm), MissCom = sum(FailCom))
+
+Long_GoNo_MainSummary <- Long_GoNo_MainSummary %>% filter(RealorPractice!="NA")
+
+Long_GoNo_Summary_acrossOmCom <- GoNo %>%
+  group_by(Participant.ID, RealorPractice,  OmComCheck,Express)%>%
+  summarise(RTmean = mean(Response.Time, na.rm=TRUE), RTsd = sd(Response.Time, na.rm=TRUE), ISImean = mean(ISI, na.rm=TRUE), ISIsd = sd(ISI, na.rm=TRUE), face_appear_mean = mean(FaceSetStart,na.rm=TRUE), face_appear_sd = sd(FaceSetStart, na.rm=TRUE), AccurateOm = sum(CorrectOm), AccurateCom = sum(CorrectCom), MissOm= sum(FailOm), MissCom = sum(FailCom))
+
+Long_GoNo_Summary_acrossOmCom <- Long_GoNo_Summary_acrossOmCom %>% filter(RealorPractice!="NA")
+
+```
+
+##Summaries for wide file format
+
+```{r b0, echo=FALSE, include=TRUE}
+
+WideGoNo <- GoNo
+
+Wide_GoNo_MainSummary <- WideGoNo %>% filter(RealorPractice!="Practice")
+
+Wide_GoNo_MainSummary <- WideGoNo %>% filter(HotorColdTrial!="NA")
+
+Wide_GoNo_MainSummary <- WideGoNo %>%
+  group_by(Participant.ID,  HotorColdTrial)%>%
+  summarise(RTmean = mean(Response.Time, na.rm=TRUE), RTsd = sd(Response.Time, na.rm=TRUE), AccurateOm = sum(CorrectOm), AccurateCom = sum(CorrectCom), MissOm= sum(FailOm), MissCom = sum(FailCom))
+
+Wide_GoNo_MainSummary <- Wide_GoNo_MainSummary %>% filter(RTsd!="NA")
+
+##############Generate OmissionsTrue
+Wide_GoNo_OmissionsTRUE <- Wide_GoNo_MainSummary %>% select(AccurateOm,HotorColdTrial)
+
+Wide_GoNo_OmissionsTRUE <- Wide_GoNo_OmissionsTRUE %>% 
+  spread(HotorColdTrial, AccurateOm,fill=FALSE)
+
+Wide_GoNo_OmissionsTRUE <- Wide_GoNo_OmissionsTRUE %>%
+  mutate(ColdOmTrue=Cold,HotOmTrue=Hot)
+##############Generate ComissionsTRUE
+Wide_GoNo_OmissionsTRUE <- Wide_GoNo_MainSummary %>% select(AccurateCom,HotorColdTrial)
+
+Wide_GoNo_ComissionsTRUE <- Wide_GoNo_OmissionsTRUE %>% 
+  spread(HotorColdTrial, AccurateCom,fill=FALSE)
+
+Wide_GoNo_ComissionsTRUE <- Wide_GoNo_ComissionsTRUE %>%
+  mutate(ColdComTrue=Cold,HotComTrue=Hot)
+#################Generate OmissionsFalse
+Wide_GoNo_OmissionsFALSE <- Wide_GoNo_MainSummary %>% select(MissOm,HotorColdTrial)
+
+Wide_GoNo_OmissionsFALSE <- Wide_GoNo_OmissionsFALSE %>% 
+  spread(HotorColdTrial, MissOm,fill=FALSE)
+
+Wide_GoNo_OmissionsFALSE <- Wide_GoNo_OmissionsFALSE %>%
+  mutate(ColdOmFalse=Cold,HotOmFalse=Hot)
+
+##################Generate ComissionsFALSE (i.e. Omission error occurred)
+Wide_GoNo_ComissionsFALSE <- Wide_GoNo_MainSummary %>% select(MissCom,HotorColdTrial)
+
+Wide_GoNo_ComissionsFALSE <- Wide_GoNo_ComissionsFALSE %>% 
+  spread(HotorColdTrial, MissCom,fill=FALSE)
+
+Wide_GoNo_ComissionsFALSE <- Wide_GoNo_ComissionsFALSE %>%
+  mutate(ColdComFalse=Cold,HotComFalse=Hot)
+
+##################Generate RTmean (i.e. Commission error occurred)
+Wide_GoNo_RTmean <- Wide_GoNo_MainSummary %>% select(RTmean,HotorColdTrial)
+
+Wide_GoNo_RTmean <- Wide_GoNo_RTmean %>% 
+  spread(HotorColdTrial, RTmean,fill=FALSE)
+
+Wide_GoNo_RTmean <- Wide_GoNo_RTmean %>%
+  mutate(HotRT=Hot,ColdRT=Cold)
+
+#################Generate RTsd across hot/cold conditions
+
+Wide_GoNo_RTsd <- Wide_GoNo_MainSummary %>% select(RTsd,HotorColdTrial)
+
+Wide_GoNo_RTsd <- Wide_GoNo_RTsd %>% 
+  spread(HotorColdTrial, RTsd,fill=FALSE)
+
+Wide_GoNo_RTsd <- Wide_GoNo_RTsd %>%
+  mutate(ColdRTsd=Cold,HotRTsd=Hot)
+#################
+
+Wide_GoNo_MainPre <- Wide_GoNo_RTmean %>% select(Participant.ID)
+
+#Add columns together and remove extraneous df
+
+Wide_GoNo_MainPre <- cbind(Wide_GoNo_MainPre, ColdOmTrue = Wide_GoNo_OmissionsTRUE$ColdOmTrue)
+Wide_GoNo_MainPre <- cbind(Wide_GoNo_MainPre, HotOmTrue = Wide_GoNo_OmissionsTRUE$HotOmTrue)
+Wide_GoNo_MainPre <- cbind(Wide_GoNo_MainPre, HotOmFalse = Wide_GoNo_OmissionsFALSE$HotOmFalse)
+Wide_GoNo_MainPre <- cbind(Wide_GoNo_MainPre, ColdOmFalse = Wide_GoNo_OmissionsFALSE$ColdOmFalse)
+
+Wide_GoNo_MainPre <- cbind(Wide_GoNo_MainPre, ColdComTrue = Wide_GoNo_ComissionsTRUE$ColdComTrue)
+Wide_GoNo_MainPre <- cbind(Wide_GoNo_MainPre, HotComTrue = Wide_GoNo_ComissionsTRUE$HotComTrue)
+Wide_GoNo_MainPre <- cbind(Wide_GoNo_MainPre, ColdComFalse = Wide_GoNo_ComissionsFALSE$ColdComFalse)
+Wide_GoNo_MainPre <- cbind(Wide_GoNo_MainPre, HotComFalse = Wide_GoNo_ComissionsFALSE$HotComFalse)
+
+Wide_GoNo_MainPre <- cbind(Wide_GoNo_MainPre, HotRTmean = Wide_GoNo_RTmean$HotRT)
+Wide_GoNo_MainPre <- cbind(Wide_GoNo_MainPre, ColdRTmean = Wide_GoNo_RTmean$ColdRT)
+
+Wide_GoNo_MainPre <- cbind(Wide_GoNo_MainPre, HotRTsd = Wide_GoNo_RTsd$HotRTsd)
+Wide_GoNo_MainPre <- cbind(Wide_GoNo_MainPre, ColdRTsd = Wide_GoNo_RTsd$ColdRTsd)
+
+Wide_GoNo_MainHotColdSeperate <-Wide_GoNo_MainPre
+
+rm(Wide_GoNo_OmissionsTRUE)
+rm(Wide_GoNo_OmissionsFALSE)
+rm(Wide_GoNo_ComissionsTRUE)
+rm(Wide_GoNo_ComissionsFALSE)
+rm(Wide_GoNo_RTmean)
+rm(Wide_GoNo_RTsd)
+rm(WideGoNo)
+rm(Wide_GoNo_MainPre)
+
+#Spread by PRE/POST for RT (example)
+Wide_GoNo_MainPREPOSTexample <- Wide_GoNo_MainPre %>%
+  mutate(PRE.POST1 = case_when(grepl("2",Participant.ID, ignore.case = TRUE) ~ 'POST',
+         TRUE ~ "PRE"))
+
+Wide_GoNo_MainPREPOSTexample <- Wide_GoNo_MainPREPOSTexampleT %>% select(HotRTmean,PRE.POST1)
+
+Wide_GoNo_MainPREPOSTexample <- Wide_GoNo_MainPREPOSTexample %>% 
+  spread(PRE.POST1,HotRTmean)
+
+```
