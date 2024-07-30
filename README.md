@@ -22,9 +22,9 @@ Lundqvist, D., Flykt, A., &  Öhman, A. (1998). _The Karolinska Directed Emotion
 
 *RADIATE reference:*
 
-Conley, M. I., Dellarco, D. V., Rubien-Thomas, E., Cohen, A. O., Cervera, A., Tottenham, N., & Casey, B. J. (2018). The racially diverse affective expression (RADIATE) face stimulus set. _Psychiatry Research_, 270, 1059-1067.
+Conley, M. I., Dellarco, D. V., Rubien-Thomas, E., Cohen, A. O., Cervera, A., Tottenham, N., & Casey, B. J. (2018). The racially diverse affective expression (RADIATE) face stimulus set. _Psychiatry Research_, **270**.
 
-This task is currently in-use in the Psychopharmacology and Emotion Laboratory (PERL) at the Department of Psychiatry, University of Oxford. Multiple ongoing psychopharmacology projects in the Department of Psychiatry (University of Oxford) are using this task (e.g., PEACE; NCT05849675). 
+This task is currently in-use in the Psychopharmacology and Emotion Laboratory (PERL) at the Department of Psychiatry, University of Oxford. Multiple ongoing psychopharmacology projects are using this task (e.g., PEACE; NCT05849675). 
 
 ## Change log
 *21/01/2022 Note: Updated Readme.md and pushed folder containing preprocessing scripts for researchers to use, to better enhance reproducibility.*
