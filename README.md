@@ -9,20 +9,20 @@ The task materials and preprocessing script are offered free of charge for resea
 
 **Please cite the reference below**:
 
-*Main paper reference*
+*Main paper reference:*
 
 Colwell, M. J., Tagomori, H., Shang, F., Hoi Iao, C., Wigg, C. E., Browning, M., Cowen, P. J., Murphy, S. E., & Harmer, C. J. (2024). 
 Direct serotonin release in humans shapes aversive learning and inhibition. _Nature Communications_, **15**. https://doi.org/10.1038/s41467-024-50394-x
 
 You may also wish to include reference to the below image sets which were used as stimuli within the task:
 
-*KDEF reference*
+*KDEF reference:*
 
-Lundqvist, D., Flykt, A., &  Öhman, A. (1998). The Karolinska Directed Emotional Faces - KDEF, CD ROM from Department of Clinical Neuroscience, Psychology section, Karolinska Institutet, ISBN 91-630-7164-9.
+Lundqvist, D., Flykt, A., &  Öhman, A. (1998). _The Karolinska Directed Emotional Faces - KDEF_, CD ROM from Department of Clinical Neuroscience, Psychology section, Karolinska Institutet, ISBN 91-630-7164-9.
 
-*RADIATE reference*
+*RADIATE reference:*
 
-Conley, M. I., Dellarco, D. V., Rubien-Thomas, E., Cohen, A. O., Cervera, A., Tottenham, N., & Casey, B. J. (2018). The racially diverse affective expression (RADIATE) face stimulus set. Psychiatry research, 270, 1059-1067.
+Conley, M. I., Dellarco, D. V., Rubien-Thomas, E., Cohen, A. O., Cervera, A., Tottenham, N., & Casey, B. J. (2018). The racially diverse affective expression (RADIATE) face stimulus set. _Psychiatry Research_, 270, 1059-1067.
 
 This task is currently in-use in the Psychopharmacology and Emotion Laboratory (PERL) at the Department of Psychiatry, University of Oxford. Multiple ongoing psychopharmacology projects in the Department of Psychiatry (University of Oxford) are using this task (e.g., PEACE; NCT05849675). 
 
