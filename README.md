@@ -5,11 +5,11 @@ Build V1.2 : 04/06/2021
 Created by Michael Colwell (michael.colwell@psych.ox.ac.uk / ORCID 0000-0001-7846-2879), 2021
 
 ## License: 
-The task materials and preprocessing script are offered free of charge for researchers. **It is requested that researchers who publish data using these materials (task or preprocessing script) cite the below paper in relevant publications.**
+The task materials and preprocessing script are offered free of charge for researchers. **It is requested that researchers who publish data using these materials (task or preprocessing script) cite the below paper(s) in relevant publications.**
 
-**Please cite the code and supplementary materials below**:
+**Please cite the reference below**:
 
-*Paper reference*
+*Main paper reference*
 
 Colwell, M. J., Tagomori, H., Shang, F., Hoi Iao, C., Wigg, C. E., Browning, M., Cowen, P. J., Murphy, S. E., & Harmer, C. J. (2024). 
 Direct serotonin release in humans shapes aversive learning and inhibition. _Nature Communications_, **15**. https://doi.org/10.1038/s41467-024-50394-x
