@@ -317,6 +317,23 @@
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="Bgrd_Box" valType="code" updates="None" name="name"/>
       </CodeComponent>
+      <CodeComponent name="Initialise_Eyetracker" plugin="None">
+        <Param val="import pylink&amp;#10;import os&amp;#10;from psychopy import gui, core&amp;#10;from EyeLinkCoreGraphicsPsychoPy import EyeLinkCoreGraphicsPsychoPy&amp;#10;&amp;#10;# === Prompt for filename ===&amp;#10;while True:&amp;#10;    dlg = gui.Dlg(&quot;Enter EDF filename&quot;)&amp;#10;    dlg.addField(&quot;Filename (≤8 chars)&quot;, &quot;TEST&quot;)&amp;#10;    ok_data = dlg.show()&amp;#10;    if not dlg.OK:&amp;#10;        core.quit()&amp;#10;    edf_fname = ok_data[0].split(&quot;.&quot;)[0]&amp;#10;    if len(edf_fname) &lt;= 8 and edf_fname.isalnum():&amp;#10;        break&amp;#10;&amp;#10;edf_file = edf_fname + &quot;.EDF&quot;&amp;#10;results_dir = &quot;eyetracker_data&quot;&amp;#10;if not os.path.exists(results_dir):&amp;#10;    os.makedirs(results_dir)&amp;#10;" valType="extendedCode" updates="constant" name="Before Experiment"/>
+        <Param val="import * as pylink from 'pylink';&amp;#10;import * as os from 'os';&amp;#10;import {core, gui} from 'psychopy';&amp;#10;import {EyeLinkCoreGraphicsPsychoPy} from 'EyeLinkCoreGraphicsPsychoPy';&amp;#10;while (true) {&amp;#10;    dlg = new gui.Dlg(&quot;Enter EDF filename&quot;);&amp;#10;    dlg.addField(&quot;Filename (\u22648 chars)&quot;, &quot;TEST&quot;);&amp;#10;    ok_data = dlg.show();&amp;#10;    if ((! dlg.OK)) {&amp;#10;        core.quit();&amp;#10;    }&amp;#10;    edf_fname = ok_data[0].split(&quot;.&quot;)[0];&amp;#10;    if (((edf_fname.length &lt;= 8) &amp;&amp; edf_fname.isalnum())) {&amp;#10;        break;&amp;#10;    }&amp;#10;}&amp;#10;edf_file = (edf_fname + &quot;.EDF&quot;);&amp;#10;results_dir = &quot;eyetracker_data&quot;;&amp;#10;if ((! os.path.exists(results_dir))) {&amp;#10;    os.makedirs(results_dir);&amp;#10;}&amp;#10;" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
+        <Param val="try {&amp;#10;    el_tracker = new pylink.EyeLink(&quot;100.1.1.1&quot;);&amp;#10;} catch(e) {&amp;#10;    el_tracker = new pylink.EyeLink(null);&amp;#10;}&amp;#10;el_tracker.setOfflineMode();&amp;#10;el_tracker.openDataFile(edf_file);&amp;#10;[scn_w, scn_h] = psychoJS.window.size;&amp;#10;el_tracker.sendCommand(`screen_pixel_coords = 0 0 ${(scn_w - 1)} ${(scn_h - 1)}`);&amp;#10;el_tracker.sendMessage(`DISPLAY_COORDS 0 0 ${(scn_w - 1)} ${(scn_h - 1)}`);&amp;#10;genv = new EyeLinkCoreGraphicsPsychoPy(el_tracker, psychoJS.window);&amp;#10;pylink.openGraphicsEx(genv);&amp;#10;" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
+        <Param val="# === Connect to EyeLink ===&amp;#10;try:&amp;#10;    el_tracker = pylink.EyeLink(&quot;100.1.1.1&quot;)&amp;#10;except:&amp;#10;    el_tracker = pylink.EyeLink(None)  # Dummy Mode fallback&amp;#10;&amp;#10;el_tracker.setOfflineMode()&amp;#10;el_tracker.openDataFile(edf_file)&amp;#10;&amp;#10;# === Screen and calibration setup ===&amp;#10;scn_w, scn_h = win.size&amp;#10;el_tracker.sendCommand(f&quot;screen_pixel_coords = 0 0 {scn_w - 1} {scn_h - 1}&quot;)&amp;#10;el_tracker.sendMessage(f&quot;DISPLAY_COORDS 0 0 {scn_w - 1} {scn_h - 1}&quot;)&amp;#10;genv = EyeLinkCoreGraphicsPsychoPy(el_tracker, win)&amp;#10;pylink.openGraphicsEx(genv)&amp;#10;" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="Auto-&gt;JS" valType="str" updates="None" name="Code Type"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Routine"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End Routine"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="Initialise_Eyetracker" valType="code" updates="None" name="name"/>
+      </CodeComponent>
     </Routine>
     <Routine name="Break">
       <RoutineSettingsComponent name="Break" plugin="None">
@@ -639,7 +656,7 @@
         <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Routine"/>
         <Param val="" valType="extendedCode" updates="constant" name="End Routine"/>
-        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="True" valType="bool" updates="None" name="disabled"/>
         <Param val="TimeSetISI" valType="code" updates="None" name="name"/>
       </CodeComponent>
       <TextComponent name="Pre_ISI_Text" plugin="None">
@@ -662,7 +679,7 @@
         <Param val="time (s)" valType="str" updates="None" name="startType"/>
         <Param val="0.0" valType="code" updates="None" name="startVal"/>
         <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
-        <Param val="$current_jitter" valType="code" updates="constant" name="stopVal"/>
+        <Param val="1.0" valType="code" updates="constant" name="stopVal"/>
         <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
         <Param val="+" valType="extendedStr" updates="set every repeat" name="text"/>
         <Param val="from exp settings" valType="str" updates="None" name="units"/>
@@ -674,8 +691,8 @@
         <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
-        <Param val="time_trialBegin = globalClock.getTime();&amp;#10;" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
-        <Param val="time_trialBegin = globalClock.getTime()&amp;#10;&amp;#10;" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="var _pj;&amp;#10;function _pj_snippets(container) {&amp;#10;    function in_es6(left, right) {&amp;#10;        if (((right instanceof Array) || ((typeof right) === &quot;string&quot;))) {&amp;#10;            return (right.indexOf(left) &gt; (- 1));&amp;#10;        } else {&amp;#10;            if (((right instanceof Map) || (right instanceof Set) || (right instanceof WeakMap) || (right instanceof WeakSet))) {&amp;#10;                return right.has(left);&amp;#10;            } else {&amp;#10;                return (left in right);&amp;#10;            }&amp;#10;        }&amp;#10;    }&amp;#10;    container[&quot;in_es6&quot;] = in_es6;&amp;#10;    return container;&amp;#10;}&amp;#10;_pj = {};&amp;#10;_pj_snippets(_pj);&amp;#10;time_trialBegin = globalClock.getTime();&amp;#10;if (_pj.in_es6(TaskVersion, [&quot;1&quot;, &quot;2&quot;])) {&amp;#10;    el_tracker.sendMessage(`TRIAL_BEGIN`);&amp;#10;    el_tracker.sendMessage(`TRIAL_TIME_BEGIN ${util.pad(Number.parseFloat(time_trialBegin).toFixed(3), 1)}`);&amp;#10;    el_tracker.sendMessage(`!V PRE_ISI TRIAL_NO ${Trial_No}`);&amp;#10;    el_tracker.sendMessage(`!V PRE_ISI TRIAL_TYPE ${Trial_Type}`);&amp;#10;    el_tracker.sendMessage(`!V PRE_ISI EXPRESS ${Express}`);&amp;#10;    el_tracker.sendMessage(`!V PRE_ISI FACE_LUM ${FaceE_Luminance}`);&amp;#10;    el_tracker.sendMessage(`!V PRE_ISI COLOUR_LUM ${Colour_Luminance}`);&amp;#10;}&amp;#10;" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
+        <Param val="time_trialBegin = globalClock.getTime()&amp;#10;&amp;#10;if TaskVersion in ('1', '2'):&amp;#10;&amp;#10;    el_tracker.sendMessage(f&quot;TRIAL_BEGIN&quot;)&amp;#10;    el_tracker.sendMessage(f&quot;TRIAL_TIME_BEGIN {time_trialBegin:.3f}&quot;)&amp;#10;&amp;#10;    el_tracker.sendMessage('!V PRE_ISI TRIAL_NO %s' % Trial_No)&amp;#10;    el_tracker.sendMessage('!V PRE_ISI TRIAL_TYPE %s' % Trial_Type)&amp;#10;    el_tracker.sendMessage('!V PRE_ISI EXPRESS %s' % Express)&amp;#10;    el_tracker.sendMessage('!V PRE_ISI FACE_LUM %s' % FaceE_Luminance)&amp;#10;    el_tracker.sendMessage('!V PRE_ISI COLOUR_LUM %s' % Colour_Luminance)" valType="extendedCode" updates="constant" name="Begin Routine"/>
         <Param val="Auto-&gt;JS" valType="str" updates="None" name="Code Type"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
@@ -804,15 +821,15 @@
         <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
-        <Param val="time_trialBegin = globalClock.getTime();&amp;#10;" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
-        <Param val="time_trialBegin = globalClock.getTime()&amp;#10;&amp;#10;" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="var _pj;&amp;#10;function _pj_snippets(container) {&amp;#10;    function in_es6(left, right) {&amp;#10;        if (((right instanceof Array) || ((typeof right) === &quot;string&quot;))) {&amp;#10;            return (right.indexOf(left) &gt; (- 1));&amp;#10;        } else {&amp;#10;            if (((right instanceof Map) || (right instanceof Set) || (right instanceof WeakMap) || (right instanceof WeakSet))) {&amp;#10;                return right.has(left);&amp;#10;            } else {&amp;#10;                return (left in right);&amp;#10;            }&amp;#10;        }&amp;#10;    }&amp;#10;    container[&quot;in_es6&quot;] = in_es6;&amp;#10;    return container;&amp;#10;}&amp;#10;_pj = {};&amp;#10;_pj_snippets(_pj);&amp;#10;time_trialBegin = globalClock.getTime();&amp;#10;if (_pj.in_es6(TaskVersion, [&quot;1&quot;, &quot;2&quot;])) {&amp;#10;    el_tracker.sendMessage(`!V STIMULUS_DISPLAY TRIAL_NO ${Trial_No}`);&amp;#10;    el_tracker.sendMessage(`!V STIMULUS_DISPLAY TRIAL_TYPE ${Trial_Type}`);&amp;#10;    el_tracker.sendMessage(`!V STIMULUS_DISPLAY EXPRESS ${Express}`);&amp;#10;    el_tracker.sendMessage(`!V STIMULUS_DISPLAY FACE_LUM ${FaceE_Luminance}`);&amp;#10;    el_tracker.sendMessage(`!V STIMULUS_DISPLAY COLOUR_LUM ${Colour_Luminance}`);&amp;#10;}&amp;#10;" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
+        <Param val="time_trialBegin = globalClock.getTime()&amp;#10;&amp;#10;if TaskVersion in ('1', '2'):&amp;#10;&amp;#10;    el_tracker.sendMessage('!V STIMULUS_DISPLAY TRIAL_NO %s' % Trial_No)&amp;#10;    el_tracker.sendMessage('!V STIMULUS_DISPLAY TRIAL_TYPE %s' % Trial_Type)&amp;#10;    el_tracker.sendMessage('!V STIMULUS_DISPLAY EXPRESS %s' % Express)&amp;#10;    el_tracker.sendMessage('!V STIMULUS_DISPLAY FACE_LUM %s' % FaceE_Luminance)&amp;#10;    el_tracker.sendMessage('!V STIMULUS_DISPLAY COLOUR_LUM %s' % Colour_Luminance)&amp;#10;&amp;#10;" valType="extendedCode" updates="constant" name="Begin Routine"/>
         <Param val="Auto-&gt;JS" valType="str" updates="None" name="Code Type"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="End Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
-        <Param val="time_trialEnd = globalClock.getTime();&amp;#10;psychoJS.experiment.addData(&quot;Stimulus_Display_Start&quot;, time_trialBegin);&amp;#10;psychoJS.experiment.addData(&quot;Stimulus_Display_End&quot;, time_trialEnd);&amp;#10;" valType="extendedCode" updates="constant" name="End JS Routine"/>
-        <Param val="time_trialEnd = globalClock.getTime()&amp;#10;&amp;#10;thisExp.addData('Stimulus_Display_Start', time_trialBegin)&amp;#10;thisExp.addData('Stimulus_Display_End', time_trialEnd)" valType="extendedCode" updates="constant" name="End Routine"/>
+        <Param val="var _pj;&amp;#10;function _pj_snippets(container) {&amp;#10;    function in_es6(left, right) {&amp;#10;        if (((right instanceof Array) || ((typeof right) === &quot;string&quot;))) {&amp;#10;            return (right.indexOf(left) &gt; (- 1));&amp;#10;        } else {&amp;#10;            if (((right instanceof Map) || (right instanceof Set) || (right instanceof WeakMap) || (right instanceof WeakSet))) {&amp;#10;                return right.has(left);&amp;#10;            } else {&amp;#10;                return (left in right);&amp;#10;            }&amp;#10;        }&amp;#10;    }&amp;#10;    container[&quot;in_es6&quot;] = in_es6;&amp;#10;    return container;&amp;#10;}&amp;#10;_pj = {};&amp;#10;_pj_snippets(_pj);&amp;#10;time_trialEnd = globalClock.getTime();&amp;#10;psychoJS.experiment.addData(&quot;Stimulus_Display_Start&quot;, time_trialBegin);&amp;#10;psychoJS.experiment.addData(&quot;Stimulus_Display_End&quot;, time_trialEnd);&amp;#10;if (_pj.in_es6(TaskVersion, [&quot;1&quot;, &quot;2&quot;])) {&amp;#10;    if (((key_resp.keys === &quot;space&quot;) &amp;&amp; (CorrectAnsP === &quot;space&quot;))) {&amp;#10;        el_tracker.sendMessage(&quot;STIMULUS DISPLAY CORRECT GO&quot;);&amp;#10;    }&amp;#10;    if (((key_resp.keys === &quot;space&quot;) &amp;&amp; (CorrectAnsP === &quot;None&quot;))) {&amp;#10;        el_tracker.sendMessage(&quot;STIMULUS DISPLAY INCORRECT GO&quot;);&amp;#10;    }&amp;#10;    if (((key_resp.keys === &quot;&quot;) &amp;&amp; (CorrectAnsP === &quot;space&quot;))) {&amp;#10;        el_tracker.sendMessage(&quot;STIMULUS DISPLAY INCORRECT NOGO&quot;);&amp;#10;    }&amp;#10;    if (((key_resp.keys === &quot;&quot;) &amp;&amp; (CorrectAnsP === &quot;None&quot;))) {&amp;#10;        el_tracker.sendMessage(&quot;STIMULUS DISPLAY CORRECT NOGO&quot;);&amp;#10;    }&amp;#10;}&amp;#10;" valType="extendedCode" updates="constant" name="End JS Routine"/>
+        <Param val="time_trialEnd = globalClock.getTime()&amp;#10;&amp;#10;thisExp.addData('Stimulus_Display_Start', time_trialBegin)&amp;#10;thisExp.addData('Stimulus_Display_End', time_trialEnd)&amp;#10;&amp;#10;if TaskVersion in ('1', '2'):&amp;#10;    if key_resp.keys == 'space' and CorrectAnsP == 'space':&amp;#10;        el_tracker.sendMessage(&quot;STIMULUS DISPLAY CORRECT GO&quot;)&amp;#10;        &amp;#10;    if key_resp.keys == 'space' and CorrectAnsP == 'None':&amp;#10;        el_tracker.sendMessage(&quot;STIMULUS DISPLAY INCORRECT GO&quot;)&amp;#10;        &amp;#10;    if key_resp.keys == '' and CorrectAnsP == 'space':&amp;#10;        el_tracker.sendMessage(&quot;STIMULUS DISPLAY INCORRECT NOGO&quot;)&amp;#10;        &amp;#10;    if key_resp.keys == '' and CorrectAnsP == 'None':&amp;#10;        el_tracker.sendMessage(&quot;STIMULUS DISPLAY CORRECT NOGO&quot;)" valType="extendedCode" updates="constant" name="End Routine"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="Timer_2" valType="code" updates="None" name="name"/>
       </CodeComponent>
@@ -1048,6 +1065,23 @@
         <Param val="" valType="code" updates="None" name="validator"/>
         <Param val="" valType="code" updates="constant" name="wrapWidth"/>
       </TextComponent>
+      <CodeComponent name="Eyetracker_Send" plugin="None">
+        <Param val="" valType="extendedCode" updates="constant" name="Before Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
+        <Param val="var _pj;&amp;#10;function _pj_snippets(container) {&amp;#10;    function in_es6(left, right) {&amp;#10;        if (((right instanceof Array) || ((typeof right) === &quot;string&quot;))) {&amp;#10;            return (right.indexOf(left) &gt; (- 1));&amp;#10;        } else {&amp;#10;            if (((right instanceof Map) || (right instanceof Set) || (right instanceof WeakMap) || (right instanceof WeakSet))) {&amp;#10;                return right.has(left);&amp;#10;            } else {&amp;#10;                return (left in right);&amp;#10;            }&amp;#10;        }&amp;#10;    }&amp;#10;    container[&quot;in_es6&quot;] = in_es6;&amp;#10;    return container;&amp;#10;}&amp;#10;_pj = {};&amp;#10;_pj_snippets(_pj);&amp;#10;if (_pj.in_es6(TaskVersion, [&quot;1&quot;, &quot;2&quot;])) {&amp;#10;    if (el_tracker.isConnected()) {&amp;#10;        el_tracker.setOfflineMode();&amp;#10;        pylink.msecDelay(500);&amp;#10;        try {&amp;#10;            el_tracker.closeDataFile();&amp;#10;        } catch(err) {&amp;#10;            if ((err instanceof RuntimeError)) {&amp;#10;                console.log(&quot;Error closing EDF on Host:&quot;, err);&amp;#10;            } else {&amp;#10;                throw err;&amp;#10;            }&amp;#10;        }&amp;#10;        console.log(&quot;Transferring EDF file from Host...&quot;);&amp;#10;        local_path = `eyetracker_data/${edf_fname}.EDF`;&amp;#10;        try {&amp;#10;            el_tracker.receiveDataFile((edf_fname + &quot;.EDF&quot;), local_path);&amp;#10;            console.log(`EDF successfully saved to ${local_path}`);&amp;#10;        } catch(err) {&amp;#10;            if ((err instanceof RuntimeError)) {&amp;#10;                console.log(&quot;Error downloading EDF:&quot;, err);&amp;#10;            } else {&amp;#10;                throw err;&amp;#10;            }&amp;#10;        }&amp;#10;        el_tracker.close();&amp;#10;    }&amp;#10;}&amp;#10;" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
+        <Param val="# Assume `el_tracker` and `edf_fname` are already defined&amp;#10;&amp;#10;if TaskVersion in ('1', '2'):&amp;#10;    if el_tracker.isConnected():&amp;#10;        el_tracker.setOfflineMode()&amp;#10;        pylink.msecDelay(500)&amp;#10;&amp;#10;        try:&amp;#10;            el_tracker.closeDataFile()&amp;#10;        except RuntimeError as err:&amp;#10;            print(&quot;Error closing EDF on Host:&quot;, err)&amp;#10;&amp;#10;        print(&quot;Transferring EDF file from Host...&quot;)&amp;#10;&amp;#10;        # Define where to save locally&amp;#10;        local_path = f&quot;eyetracker_data/{edf_fname}.EDF&quot;  # or any path you want&amp;#10;&amp;#10;        try:&amp;#10;            el_tracker.receiveDataFile(edf_fname + &quot;.EDF&quot;, local_path)&amp;#10;            print(f&quot;EDF successfully saved to {local_path}&quot;)&amp;#10;        except RuntimeError as err:&amp;#10;            print(&quot;Error downloading EDF:&quot;, err)&amp;#10;&amp;#10;        el_tracker.close()&amp;#10;" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="Auto-&gt;JS" valType="str" updates="None" name="Code Type"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Routine"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End Routine"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="Eyetracker_Send" valType="code" updates="None" name="name"/>
+      </CodeComponent>
       <CodeComponent name="Box24" plugin="None">
         <Param val="" valType="extendedCode" updates="constant" name="Before Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
@@ -1468,7 +1502,7 @@
         <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
-        <Param val="if ((EPracticeInnerLoop.thisN === 0)) {&amp;#10;    jitters = [1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9];&amp;#10;    util.shuffle(jitters);&amp;#10;}&amp;#10;current_jitter = jitters.splice((jitters.length - 1), 1);&amp;#10;psychoJS.experiment.addData(&quot;ISIjitterPractice&quot;, current_jitter);&amp;#10;" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
+        <Param val="if ((EPracticeInnerLoop.thisN === 0)) {&amp;#10;    jitters = [1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9];&amp;#10;    shuffle(jitters);&amp;#10;}&amp;#10;current_jitter = jitters.pop();&amp;#10;thisExp.addData(&quot;ISIjitterPractice&quot;, current_jitter);&amp;#10;" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
         <Param val="if EPracticeInnerLoop.thisN == 0: # only on the first trial&amp;#10;    jitters = [1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9] # create the list&amp;#10;    shuffle(jitters) # randomise its order&amp;#10;&amp;#10;current_jitter = jitters.pop() # extract one entry on each trial&amp;#10;thisExp.addData('ISIjitterPractice', current_jitter) # record in the data for this trial" valType="extendedCode" updates="constant" name="Begin Routine"/>
         <Param val="Auto-&gt;JS" valType="str" updates="None" name="Code Type"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
@@ -1477,7 +1511,7 @@
         <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Routine"/>
         <Param val="" valType="extendedCode" updates="constant" name="End Routine"/>
-        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="True" valType="bool" updates="None" name="disabled"/>
         <Param val="EPracticeISICode" valType="code" updates="None" name="name"/>
       </CodeComponent>
       <TextComponent name="EPracticeISIMarker" plugin="None">
@@ -1500,7 +1534,7 @@
         <Param val="time (s)" valType="str" updates="None" name="startType"/>
         <Param val="0.0" valType="code" updates="None" name="startVal"/>
         <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
-        <Param val="$current_jitter" valType="code" updates="constant" name="stopVal"/>
+        <Param val="1.0" valType="code" updates="constant" name="stopVal"/>
         <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
         <Param val="+" valType="extendedStr" updates="set every repeat" name="text"/>
         <Param val="from exp settings" valType="str" updates="None" name="units"/>
@@ -2224,8 +2258,8 @@
         <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="End Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
-        <Param val="time_trialEnd = globalClock.getTime();&amp;#10;" valType="extendedCode" updates="constant" name="End JS Routine"/>
-        <Param val="time_trialEnd = globalClock.getTime()&amp;#10;&amp;#10;" valType="extendedCode" updates="constant" name="End Routine"/>
+        <Param val="var _pj;&amp;#10;function _pj_snippets(container) {&amp;#10;    function in_es6(left, right) {&amp;#10;        if (((right instanceof Array) || ((typeof right) === &quot;string&quot;))) {&amp;#10;            return (right.indexOf(left) &gt; (- 1));&amp;#10;        } else {&amp;#10;            if (((right instanceof Map) || (right instanceof Set) || (right instanceof WeakMap) || (right instanceof WeakSet))) {&amp;#10;                return right.has(left);&amp;#10;            } else {&amp;#10;                return (left in right);&amp;#10;            }&amp;#10;        }&amp;#10;    }&amp;#10;    container[&quot;in_es6&quot;] = in_es6;&amp;#10;    return container;&amp;#10;}&amp;#10;_pj = {};&amp;#10;_pj_snippets(_pj);&amp;#10;time_trialEnd = globalClock.getTime();&amp;#10;if (_pj.in_es6(TaskVersion, [&quot;1&quot;, &quot;2&quot;])) {&amp;#10;    el_tracker.sendMessage(&quot;!V TRIAL END%s&quot;);&amp;#10;    el_tracker.sendMessage(`TRIAL_TIME_END ${util.pad(Number.parseFloat(time_trialEnd).toFixed(3), 1)}`);&amp;#10;}&amp;#10;psychoJS.experiment.addData(&quot;Post_ISI_End&quot;, time_trialEnd);&amp;#10;" valType="extendedCode" updates="constant" name="End JS Routine"/>
+        <Param val="time_trialEnd = globalClock.getTime()&amp;#10;&amp;#10;if TaskVersion in ('1', '2'):&amp;#10;&amp;#10;    el_tracker.sendMessage('!V TRIAL END%s')&amp;#10;    el_tracker.sendMessage(f&quot;TRIAL_TIME_END {time_trialEnd:.3f}&quot;)&amp;#10;&amp;#10;thisExp.addData('Post_ISI_End', time_trialEnd)&amp;#10;&amp;#10;" valType="extendedCode" updates="constant" name="End Routine"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="Timer_3" valType="code" updates="None" name="name"/>
       </CodeComponent>
@@ -2313,15 +2347,15 @@
         <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
-        <Param val="time_trialBegin = globalClock.getTime();&amp;#10;" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
-        <Param val="time_trialBegin = globalClock.getTime()&amp;#10;&amp;#10;" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="var _pj;&amp;#10;function _pj_snippets(container) {&amp;#10;    function in_es6(left, right) {&amp;#10;        if (((right instanceof Array) || ((typeof right) === &quot;string&quot;))) {&amp;#10;            return (right.indexOf(left) &gt; (- 1));&amp;#10;        } else {&amp;#10;            if (((right instanceof Map) || (right instanceof Set) || (right instanceof WeakMap) || (right instanceof WeakSet))) {&amp;#10;                return right.has(left);&amp;#10;            } else {&amp;#10;                return (left in right);&amp;#10;            }&amp;#10;        }&amp;#10;    }&amp;#10;    container[&quot;in_es6&quot;] = in_es6;&amp;#10;    return container;&amp;#10;}&amp;#10;_pj = {};&amp;#10;_pj_snippets(_pj);&amp;#10;time_trialBegin = globalClock.getTime();&amp;#10;el_tracker.sendMessage(`!V POST_ISI TRIAL_NO ${Trial_No}`);&amp;#10;el_tracker.sendMessage(`!V POST_ISI TRIAL_TYPE ${Trial_Type}`);&amp;#10;el_tracker.sendMessage(`!V POST_ISI EXPRESS ${Express}`);&amp;#10;el_tracker.sendMessage(`!V POST_ISI FACE_LUM ${FaceE_Luminance}`);&amp;#10;el_tracker.sendMessage(`!V POST_ISI COLOUR_LUM ${Colour_Luminance}`);&amp;#10;if (_pj.in_es6(TaskVersion, [&quot;1&quot;, &quot;2&quot;])) {&amp;#10;    if (((key_resp.corr === &quot;1&quot;) &amp;&amp; (Trial_Type === &quot;Go&quot;))) {&amp;#10;        el_tracker.sendMessage(&quot;POST_ISI CORRECT GO&quot;);&amp;#10;    }&amp;#10;    if (((key_resp.corr === &quot;0&quot;) &amp;&amp; (Trial_Type === &quot;Go&quot;))) {&amp;#10;        el_tracker.sendMessage(&quot;POST_ISI INCORRECT GO&quot;);&amp;#10;    }&amp;#10;    if (((key_resp.corr === &quot;0&quot;) &amp;&amp; (Trial_Type === &quot;Inhibit&quot;))) {&amp;#10;        el_tracker.sendMessage(&quot;POST_ISI INCORRECT NOGO&quot;);&amp;#10;    }&amp;#10;    if (((key_resp.corr === &quot;1&quot;) &amp;&amp; (Trial_Type === &quot;Inhibit&quot;))) {&amp;#10;        el_tracker.sendMessage(&quot;POST_ISI CORRECT NOGO&quot;);&amp;#10;    }&amp;#10;}&amp;#10;" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
+        <Param val="time_trialBegin = globalClock.getTime()&amp;#10;&amp;#10;el_tracker.sendMessage('!V POST_ISI TRIAL_NO %s' % Trial_No)&amp;#10;el_tracker.sendMessage('!V POST_ISI TRIAL_TYPE %s' % Trial_Type)&amp;#10;el_tracker.sendMessage('!V POST_ISI EXPRESS %s' % Express)&amp;#10;el_tracker.sendMessage('!V POST_ISI FACE_LUM %s' % FaceE_Luminance)&amp;#10;el_tracker.sendMessage('!V POST_ISI COLOUR_LUM %s' % Colour_Luminance)&amp;#10;&amp;#10;if TaskVersion in ('1', '2'):&amp;#10;    if key_resp.corr == '1' and Trial_Type == 'Go':&amp;#10;        el_tracker.sendMessage(&quot;POST_ISI CORRECT GO&quot;)&amp;#10;        &amp;#10;    if key_resp.corr == '0' and Trial_Type == 'Go':&amp;#10;        el_tracker.sendMessage(&quot;POST_ISI INCORRECT GO&quot;)&amp;#10;        &amp;#10;    if key_resp.corr == '0' and Trial_Type == 'Inhibit':&amp;#10;        el_tracker.sendMessage(&quot;POST_ISI INCORRECT NOGO&quot;)&amp;#10;        &amp;#10;    if key_resp.corr == '1' and Trial_Type == 'Inhibit':&amp;#10;        el_tracker.sendMessage(&quot;POST_ISI CORRECT NOGO&quot;)&amp;#10;" valType="extendedCode" updates="constant" name="Begin Routine"/>
         <Param val="Auto-&gt;JS" valType="str" updates="None" name="Code Type"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
         <Param val="" valType="extendedCode" updates="constant" name="End Experiment"/>
         <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
-        <Param val="time_trialEnd = globalClock.getTime();&amp;#10;" valType="extendedCode" updates="constant" name="End JS Routine"/>
-        <Param val="time_trialEnd = globalClock.getTime()" valType="extendedCode" updates="constant" name="End Routine"/>
+        <Param val="time_trialEnd = globalClock.getTime();&amp;#10;psychoJS.experiment.addData(&quot;Post_ISI_Start&quot;, time_trialBegin);&amp;#10;" valType="extendedCode" updates="constant" name="End JS Routine"/>
+        <Param val="time_trialEnd = globalClock.getTime()&amp;#10;&amp;#10;thisExp.addData('Post_ISI_Start', time_trialBegin)" valType="extendedCode" updates="constant" name="End Routine"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="Timer_4" valType="code" updates="None" name="name"/>
       </CodeComponent>
@@ -2380,9 +2414,9 @@
         <Param val="time (s)" valType="str" updates="None" name="startType"/>
         <Param val="0.0" valType="code" updates="None" name="startVal"/>
         <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
-        <Param val="90" valType="code" updates="constant" name="stopVal"/>
+        <Param val="180" valType="code" updates="constant" name="stopVal"/>
         <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
-        <Param val="This is an extended rest period for 1.5 min(s).&amp;#10;&amp;#10;The experiment will resume soon." valType="str" updates="constant" name="text"/>
+        <Param val="This is an extended rest period for three minutes.&amp;#10;&amp;#10;Please relax; you may exit the eyetracker." valType="str" updates="constant" name="text"/>
         <Param val="from exp settings" valType="str" updates="None" name="units"/>
         <Param val="" valType="code" updates="None" name="validator"/>
         <Param val="" valType="num" updates="constant" name="wrapWidth"/>
@@ -2647,7 +2681,7 @@
         <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
         <Param val="" valType="code" updates="constant" name="stopVal"/>
         <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
-        <Param val="You will return to the task on the next screen.&amp;#10;&amp;#10;&amp;#10;Please press 'spacebar' to continue." valType="str" updates="constant" name="text"/>
+        <Param val="The recalibration has been completed.&amp;#10;&amp;#10;You will return to the task on the next screen.&amp;#10;&amp;#10;&amp;#10;Please press 'spacebar' to continue." valType="str" updates="constant" name="text"/>
         <Param val="from exp settings" valType="str" updates="None" name="units"/>
         <Param val="" valType="code" updates="None" name="validator"/>
         <Param val="" valType="num" updates="constant" name="wrapWidth"/>
@@ -3345,6 +3379,9 @@
     <Routine name="Add"/>
     <LoopTerminator name="EPracticeOuterLoop"/>
     <Routine name="EndPracticeEndInstructions"/>
+    <Routine name="Pre_Calib_Instructions"/>
+    <Routine name="EyeT_Calib"/>
+    <Routine name="EyeT_DriftCheck"/>
     <Routine name="RealTaskPreInstructions"/>
     <LoopInitiator loopType="TrialHandler" name="MasterLoop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
@@ -3369,6 +3406,7 @@
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
     <Routine name="Instructions_2"/>
+    <Routine name="Begin_Rec"/>
     <LoopInitiator loopType="TrialHandler" name="InnerLoop">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
       <Param name="conditions" updates="None" val="None" valType="str"/>
@@ -3384,10 +3422,15 @@
     <Routine name="Blank_4"/>
     <Routine name="EmotTrial"/>
     <Routine name="Blank_2"/>
+    <Routine name="ISI_3"/>
     <LoopTerminator name="InnerLoop"/>
+    <Routine name="End_Record"/>
     <Routine name="Add2"/>
     <Routine name="EndBlock"/>
     <Routine name="Recalib_Text"/>
+    <Routine name="Recalib_Text_2"/>
+    <Routine name="Recalib"/>
+    <Routine name="Drift_Check"/>
     <Routine name="End_Calib_Text"/>
     <LoopTerminator name="OuterLoop"/>
     <LoopTerminator name="MasterLoop"/>
