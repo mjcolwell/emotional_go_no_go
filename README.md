@@ -1,6 +1,6 @@
 # Affective Go/No-Go Task Go/No-Go Task - Eyetracking Ver.
 
-**This is the eyetracking task version. For non-eyetracking version, see (click here)[https://github.com/mjcolwell/emotional_go_no_go].**
+**This is the eyetracking task version. For non-eyetracking version, [see here](https://github.com/mjcolwell/emotional_go_no_go).**
 
 Build V1.4 : 08/08/2025
 
