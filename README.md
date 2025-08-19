@@ -73,15 +73,7 @@ Please follow the instructions below to run the task. (NOTE: Ideally this task s
 ## Additional details about task:
 
 - This task contains six blocks with a possibility of two randomly selected block orders; the block orders were chosen so that there was an equal number of rule set-shifts (3 blocks per run),
-and a fixed-rate where it does not occur (3 blocks per run). Rules are balanced with emotional distractors so that each emotional distract appears once with a set-shift and once without a set shift. The two block orders
-are detailed below:
-
-........................Order_1.........Order_2
-Colour rule.............YYB YBB   OR    YBB YYB
-Emotional distractor....FSS HFH         HFH FSS
-SETSHIFT/WITHOUT........WWS SSW         WSW SWS
-
-*Abbrv.: Y=Yellow, B=Blue; F=Fear, SS=Scrambled, H=Happy; W = Without set-shifting, S = set-shifting*
+and a fixed-rate where it does not occur (3 blocks per run). Rules are balanced with emotional distractors so that each emotional distract appears once with a set-shift and once without a set shift. 
 
 - All images in the task were derived from the KDEF and RADIATE face packages. The original filenames from these packages were retained in this program. 
 - All images from the RADIATE package were adjusted to match the luminosity of the KDEF package.
