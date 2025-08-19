@@ -1,4 +1,4 @@
-# Emotional Go/No-Go Task
+# Affective Go/No-Go Task
 
 Build V1.4 : 08/08/2025
 
