@@ -6,7 +6,7 @@ Build V1.4 : 08/08/2025
 
 Created by Michael Colwell (michael.colwell@psych.ox.ac.uk / ORCID 0000-0001-7846-2879), 2021
 
-![Task Schematic](Images/Task_Schematic/GNG_Smaller.png.png)
+![Task Schematic](Images/Task_Schematic/GNG_Smaller.png)
 
 ## License: 
 The task materials and preprocessing script are offered free of charge for researchers. **It is requested that researchers who publish work using these materials (task or preprocessing script) cite the below paper(s).**
