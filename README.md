@@ -1,5 +1,7 @@
 # Affective Go/No-Go Task
 
+**For the eyetracking version, see (this branch)[https://github.com/mjcolwell/emotional_go_no_go/tree/emotional_go_no_go_eyetracking_ver].**
+
 Build V1.4 : 08/08/2025
 
 Created by Michael Colwell (michael.colwell@psych.ox.ac.uk / ORCID 0000-0001-7846-2879), 2021
@@ -30,7 +32,7 @@ This task is currently in-use in the Psychopharmacology and Emotion Laboratory (
 **1.2 -> 1.4** Update - Added new optimisations to the task to improve visual clarity of emotional interference stimuli. This includes normalising the luminance 
 of all images, removing image artefacts, and reducing the tranparency of colour stimuli to 25%. Emotional interference stimuli which were previously deemed less clear in the expressed emotion were replaced by images with clearer expressions. Trial presentation has been increased by 50ms (400 -> 450ms). We recommend retaining this for lower refreshrate monitors (e.g., 60hz).
 
-This new version of the task will be uploaded alongside an eyetracking version (see Branches). This is optimised for the Eyelink 1000 Plus. This is currently an experimental feature which will be explored in an upcoming study. 
+This new version of the task will be uploaded alongside an [eyetracking version branch](https://github.com/mjcolwell/emotional_go_no_go/tree/emotional_go_no_go_eyetracking_ver). This is optimised for the Eyelink 1000 Plus. This is currently an experimental feature which will be explored in an upcoming study. 
 
 Please note that version 1.3 was not uploaded to github, it was developed bespoke for additional projects. It involves a 20% reduction in all trials and an increase in trial presentation to 450ms. It was designed for a recently completed study (NCT06363487) investing the effects of GLP-1 agonists on cognition/emotional processing in healthy volunteers.
 
