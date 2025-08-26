@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2024.2.4),
-    on August 18, 2025, at 18:16
+    on August 26, 2025, at 12:43
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -4397,16 +4397,16 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 thisExp.addData('Stimulus_Display_End', time_trialEnd)
                 
                 if TaskVersion in ('1', '2'):
-                    if key_resp.keys == 'space' and CorrectAnsP == 'space':
+                    if key_resp.keys == 'space' and Trial_Type == 'Go':
                         el_tracker.sendMessage("STIMULUS DISPLAY CORRECT GO")
                         
-                    if key_resp.keys == 'space' and CorrectAnsP == 'None':
+                    if key_resp.keys == 'space' and Trial_Type != 'Go':
                         el_tracker.sendMessage("STIMULUS DISPLAY INCORRECT GO")
                         
-                    if key_resp.keys == '' and CorrectAnsP == 'space':
+                    if key_resp.keys != 'space' and Trial_Type == 'Inhibit':
                         el_tracker.sendMessage("STIMULUS DISPLAY INCORRECT NOGO")
                         
-                    if key_resp.keys == '' and CorrectAnsP == 'None':
+                    if key_resp.keys != 'space' and Trial_Type != 'Inhibit':
                         el_tracker.sendMessage("STIMULUS DISPLAY CORRECT NOGO")
                 # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
                 if EmotTrial.maxDurationReached:
